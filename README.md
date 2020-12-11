@@ -8,8 +8,6 @@
     npm init -y
 ```
 
-## Babel Config
-
 ### Install Babel
 
 ```

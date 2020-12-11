@@ -37,6 +37,6 @@ module.exports = {
     contentBase: SRC_DIR,
     compress: true,
     hot: true,
-    open: true
+    open: true,
   },
 };
