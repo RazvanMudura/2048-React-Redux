@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 export const Grid = () => {
@@ -26,12 +26,11 @@ export const Grid = () => {
 };
 
 export const RenderSquares = () => {
-  // const mat = useSelector((state) => state.board.matrix);
-  const mat = [[0, 0, 0, 0][(0, 0, 0, 0)][(0, 0, 0, 0)][(0, 0, 0, 0)]];
-  console.log(mat);
+  const mat = useSelector((state) => state.board.matrix);
+  const size = useSelector((state) => state.board.gridSize);
   var arrResult = [];
-  for (var i = 0; i < 4; i++) {
-    for (var j = 0; j < 4; j++) {
+  for (var i = 0; i < size; i++) {
+    for (var j = 0; j < size; j++) {
       arrResult.push(
         <div
           row={i}
@@ -40,10 +39,10 @@ export const RenderSquares = () => {
           key={String(i) + String(j)}
           className="square"
           style={{
-            backgroundColor: "#F2E50B",
+            backgroundColor: "rgb(248, 217, 11)",
           }}
         >
-          2
+          {mat[i][j] > 0 ? mat[i][j] : undefined}
         </div>
       );
     }

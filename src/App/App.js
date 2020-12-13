@@ -2,8 +2,6 @@ import React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { Grid } from "./Grid";
-import { useSelector, useDispatch } from "react-redux";
-import { moveUp, moveDown, moveLeft, moveRight } from "../Redux/actions";
 import { appReducer } from "../Redux/reducers";
 
 const store = createStore(
@@ -36,24 +34,6 @@ const App = () => {
       </div>
     </Provider>
   );
-
-  function key(e) {
-    const dispatch = useDispatch();
-    if (e.keyCode === 38) {
-      dispatch(moveUp());
-    }
-    if (e.keyCode === 40) {
-      dispatch(moveDown());
-    }
-    if (e.keyCode === 37) {
-      dispatch(moveLeft());
-    }
-    if (e.keyCode === 39) {
-      dispatch(moveRight());
-    }
-  }
-
-  document.onkeydown = key;
 };
 
 export default App;
