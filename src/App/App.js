@@ -2,6 +2,8 @@ import React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { Grid } from "./Grid";
+import { Score } from "./Score";
+import { Moves } from "./Moves";
 import { appReducer } from "../Redux/reducers";
 
 const store = createStore(
@@ -18,7 +20,7 @@ const App = () => {
           fontSize: "38px",
           fontFamily: "sans-serif",
           fontWeight: "bolder",
-          color: "grey",
+          color: "lightblue",
         }}
       >
         2048
@@ -26,11 +28,20 @@ const App = () => {
       <div
         style={{
           display: "flex",
+          justifyContent: "center",
+          fontFamily: "sans-serif",
+        }}
+      >
+        <Score />
+      </div>
+      <div
+        style={{
+          display: "flex",
           flexDirection: "row",
-          marginTop: "50px",
         }}
       >
         <Grid />
+        {<Moves />}
       </div>
     </Provider>
   );

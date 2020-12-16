@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   MOVE_UP,
   MOVE_DOWN,
@@ -21,11 +22,11 @@ export const initialState = {
       [0, 0, 16, 2],
       [0, 0, 32, 0],
     ],
+    numberAdded: 2,
   },
   game: {
     started: false,
     finished: false,
-    numberAdded: 2,
   },
 };
 
@@ -50,15 +51,23 @@ export const board = (state = initialState.board, action) => {
       ...state,
     };
   }
+  if (action.type == RANDOM_NUMBER) {
+    var randomN = 2 * (Math.floor(Math.random() * 2) + 1);
+    return {
+      ...state,
+      numberAdded: randomN,
+    };
+  }
+  if (action.type == ADD_NUMBER) {
+    return {
+      ...state,
+      matrix: AddNumber(),
+    };
+  }
   return state;
 };
 
 export const game = (state = initialState.game, action) => {
-  if (action.type == ADD_NUMBER) {
-    return {
-      ...state,
-    };
-  }
   if (action.type == START_GAME) {
     return {
       ...state,
@@ -70,26 +79,31 @@ export const game = (state = initialState.game, action) => {
       ...state,
     };
   }
-  if (action.type == RANDOM_NUMBER) {
-    var randomN = 2 * (Math.floor(Math.random() * 2) + 1);
-    return {
-      ...state,
-      numberAdded: randomN,
-    };
-  }
+
   return state;
 };
 
 export const appReducer = combineReducers({ board, game });
 
-export const AddNumber = () => {
+const AddNumber = () => {
+  const mat = useSelector((state) => state.board.matrix);
+  const size = useSelector((state) => state.board.gridSize);
+  const num = useSelector((state) => state.board.numberAdded);
+  const m = mat.flat();
+  const result = m.filter((e) => e == 0);
+  const count = result.length;
+  const randomN = Math.floor(Math.random() * count + 1);
   var c = 0;
   for (var i = 0; i < size; i++) {
     for (var j = 0; j < size; j++) {
-      if (mat[i][j] == 0) {
+      if (c < randomN && mat[i][j] == 0) {
         c++;
+      } else {
+        if (c == randomN && mat[i][j] == 0) {
+          mat[i][j] = num;
+        }
       }
     }
   }
-  return <div></div>;
+  return mat;
 };

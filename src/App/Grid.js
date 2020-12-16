@@ -38,9 +38,6 @@ export const RenderSquares = () => {
           id={String(i) + String(j)}
           key={String(i) + String(j)}
           className="square"
-          style={{
-            backgroundColor: "rgb(248, 217, 11)",
-          }}
         >
           {mat[i][j] > 0 ? mat[i][j] : undefined}
         </div>

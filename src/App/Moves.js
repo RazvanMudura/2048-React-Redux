@@ -11,10 +11,13 @@ import {
   finishGame,
 } from "../Redux/actions";
 
-const Moves = () => {
+export const Moves = () => {
   const dispatch = useDispatch();
-  const add = useSelector((state) => state.game.numberAdded);
-  console.log(add);
-  dispatch(randomNumber());
-  console.log(add);
+  const logic = useSelector((state) => state.game.started);
+  console.log(logic);
+  return (
+    <div>
+      <button onClick={() => dispatch(startGame())}>Move</button>
+    </div>
+  );
 };
