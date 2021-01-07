@@ -9,15 +9,16 @@ import {
   randomNumber,
   startGame,
   finishGame,
+  restartGame,
 } from "../Redux/actions";
 
 export const Moves = () => {
   const dispatch = useDispatch();
-  const logic = useSelector((state) => state.game.started);
-  console.log(logic);
-  return (
-    <div>
-      <button onClick={() => dispatch(startGame())}>Move</button>
-    </div>
-  );
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowUp") dispatch(moveUp());
+    if (e.key === "ArrowDown") dispatch(moveDown());
+    if (e.key === "ArrowLeft") dispatch(moveLeft());
+    if (e.key === "ArrowRight") dispatch(moveRight());
+  });
+  return null;
 };

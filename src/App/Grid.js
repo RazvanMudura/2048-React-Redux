@@ -1,25 +1,9 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export const Grid = () => {
   return (
-    <div
-      id="grid"
-      style={{
-        border: "1px #FF7F50",
-        backgroundColor: "#FF7F50",
-        width: "330px",
-        height: "330px",
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "row",
-        boxSizing: "border-box",
-        justifyContent: "right",
-        alignItems: "flex-start",
-        flexWrap: "wrap",
-        borderRadius: "5px",
-      }}
-    >
+    <div className="grid">
       <RenderSquares />
     </div>
   );
@@ -27,6 +11,7 @@ export const Grid = () => {
 
 export const RenderSquares = () => {
   const mat = useSelector((state) => state.board.matrix);
+  console.log(mat);
   const size = useSelector((state) => state.board.gridSize);
   var arrResult = [];
   for (var i = 0; i < size; i++) {
@@ -39,7 +24,7 @@ export const RenderSquares = () => {
           key={String(i) + String(j)}
           className="square"
         >
-          {mat[i][j] > 0 ? mat[i][j] : undefined}
+          {mat[i][j] > 0 ? mat[i][j] : null}
         </div>
       );
     }

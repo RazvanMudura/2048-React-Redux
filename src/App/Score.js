@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 export const Score = () => {
   const score = useSelector((state) => state.board.score);
   const best = useSelector((state) => state.board.best);
+
   return (
     <div id="score" style={{ display: "flex" }}>
       <div

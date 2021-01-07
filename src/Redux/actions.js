@@ -6,6 +6,7 @@ export const ADD_NUMBER = "ADD_NUMBER";
 export const RANDOM_NUMBER = "RANDOM_NUMBER";
 export const START_GAME = "START_GAME";
 export const FINISH_GAME = "FINISH GAME";
+export const RESTART_GAME = "RESTART_GAME";
 
 export const moveUp = () => {
   return {
@@ -52,5 +53,11 @@ export const startGame = () => {
 export const finishGame = () => {
   return {
     type: FINISH_GAME,
+  };
+};
+
+export const restartGame = () => {
+  return {
+    type: RESTART_GAME,
   };
 };

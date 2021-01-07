@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import { useSelector, useDispatch } from "react-redux";
 import {
   MOVE_UP,
   MOVE_DOWN,
@@ -9,6 +8,7 @@ import {
   RANDOM_NUMBER,
   START_GAME,
   FINISH_GAME,
+  RESTART_GAME,
 } from "./actions";
 
 export const initialState = {
@@ -17,10 +17,10 @@ export const initialState = {
     score: 0,
     best: 0,
     matrix: [
-      [0, 0, 0, 0],
-      [0, 2, 4, 0],
-      [0, 0, 16, 2],
-      [0, 0, 32, 0],
+      [4, 2, 0, 0],
+      [4, 2, 4, 0],
+      [4, 0, 16, 2],
+      [4, 2, 32, 0],
     ],
     numberAdded: 2,
   },
@@ -34,21 +34,25 @@ export const board = (state = initialState.board, action) => {
   if (action.type == MOVE_UP) {
     return {
       ...state,
+      matrix: MUp(state),
     };
   }
   if (action.type == MOVE_DOWN) {
     return {
       ...state,
+      matrix: MDown(state),
     };
   }
   if (action.type == MOVE_LEFT) {
     return {
       ...state,
+      matrix: MLeft(state),
     };
   }
   if (action.type == MOVE_RIGHT) {
     return {
       ...state,
+      matrix: MRight(state),
     };
   }
   if (action.type == RANDOM_NUMBER) {
@@ -61,8 +65,11 @@ export const board = (state = initialState.board, action) => {
   if (action.type == ADD_NUMBER) {
     return {
       ...state,
-      matrix: AddNumber(),
+      matrix: ANumber(state),
     };
+  }
+  if (action.type === RESTART_GAME) {
+    return (state = initialState.board);
   }
   return state;
 };
@@ -83,12 +90,10 @@ export const game = (state = initialState.game, action) => {
   return state;
 };
 
-export const appReducer = combineReducers({ board, game });
-
-const AddNumber = () => {
-  const mat = useSelector((state) => state.board.matrix);
-  const size = useSelector((state) => state.board.gridSize);
-  const num = useSelector((state) => state.board.numberAdded);
+const ANumber = (state) => {
+  var mat = state.matrix;
+  const size = state.gridSize;
+  const num = state.numberAdded;
   const m = mat.flat();
   const result = m.filter((e) => e == 0);
   const count = result.length;
@@ -107,3 +112,121 @@ const AddNumber = () => {
   }
   return mat;
 };
+
+const MUp = (state) => {
+  let mat = state.matrix;
+  const size = state.gridSize;
+  var ok;
+  for (var j = 0; j < size; j++) {
+    ok = 1;
+    while (ok) {
+      ok = 0;
+      for (var i = size - 2; i >= 0; i--) {
+        if (mat[i][j] != 0) {
+          if (mat[i + 1][j] == mat[i][j]) {
+            mat[i][j] = 0;
+            mat[i + 1][j] = 2 * mat[i + 1][j];
+            ok = 1;
+          } else {
+            if (mat[i + 1][j] == 0) {
+              mat[i + 1][j] = mat[i][j];
+              mat[i][j] = 0;
+              ok = 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log("up");
+  return mat;
+};
+
+const MDown = (state) => {
+  let mat = state.matrix;
+  const size = state.gridSize;
+  var ok;
+  for (var j = 0; j < size; j++) {
+    ok = 1;
+    while (ok) {
+      ok = 0;
+      for (var i = size - 2; i >= 0; i--) {
+        if (mat[i][j] != 0) {
+          if (mat[i + 1][j] == mat[i][j]) {
+            mat[i][j] = 0;
+            mat[i + 1][j] = 2 * mat[i + 1][j];
+            ok = 1;
+          } else {
+            if (mat[i + 1][j] == 0) {
+              mat[i + 1][j] = mat[i][j];
+              mat[i][j] = 0;
+              ok = 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log("down");
+  return mat;
+};
+
+const MLeft = (state) => {
+  let mat = state.matrix;
+  const size = state.gridSize;
+  var ok;
+  for (var j = 0; j < size; j++) {
+    ok = 1;
+    while (ok) {
+      ok = 0;
+      for (var i = size - 2; i >= 0; i--) {
+        if (mat[i][j] != 0) {
+          if (mat[i + 1][j] == mat[i][j]) {
+            mat[i][j] = 0;
+            mat[i + 1][j] = 2 * mat[i + 1][j];
+            ok = 1;
+          } else {
+            if (mat[i + 1][j] == 0) {
+              mat[i + 1][j] = mat[i][j];
+              mat[i][j] = 0;
+              ok = 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log("left");
+  return mat;
+};
+
+const MRight = (state) => {
+  let mat = state.matrix;
+  const size = state.gridSize;
+  var ok;
+  for (var j = 0; j < size; j++) {
+    ok = 1;
+    while (ok) {
+      ok = 0;
+      for (var i = size - 2; i >= 0; i--) {
+        if (mat[i][j] != 0) {
+          if (mat[i + 1][j] == mat[i][j]) {
+            mat[i][j] = 0;
+            mat[i + 1][j] = 2 * mat[i + 1][j];
+            ok = 1;
+          } else {
+            if (mat[i + 1][j] == 0) {
+              mat[i + 1][j] = mat[i][j];
+              mat[i][j] = 0;
+              ok = 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log("rightr");
+  return mat;
+};
+
+export const appReducer = combineReducers({ board, game });
