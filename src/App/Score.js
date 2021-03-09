@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { RestartButton } from "./Restart";
 
 export const Score = () => {
   const score = useSelector((state) => state.board.score);
@@ -29,6 +30,7 @@ export const Score = () => {
         <div style={{ color: "#FF7F50" }}>Best</div>
         <div style={{ color: "white" }}>{best}</div>
       </div>
+      <RestartButton />
     </div>
   );
 };

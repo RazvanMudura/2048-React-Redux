@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { Grid } from "./Grid";
 import { Score } from "./Score";
 import { Moves } from "./Moves";
-import { RestartButton } from "./Restart";
+
 import { appReducer } from "../Redux/reducers";
 
 const store = createStore(
@@ -41,7 +41,6 @@ const App = () => {
       >
         <Grid />
         <Moves />
-        <RestartButton />
       </div>
     </Provider>
   );
