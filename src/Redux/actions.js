@@ -7,6 +7,7 @@ export const RANDOM_NUMBER = "RANDOM_NUMBER";
 export const START_GAME = "START_GAME";
 export const FINISH_GAME = "FINISH GAME";
 export const RESTART_GAME = "RESTART_GAME";
+export const INCREMENT_SCORE = "INCREMENT_SCORE";
 
 export const moveUp = () => {
   return {
@@ -59,5 +60,11 @@ export const finishGame = () => {
 export const restartGame = () => {
   return {
     type: RESTART_GAME,
+  };
+};
+
+export const incrementScore = () => {
+  return {
+    type: INCREMENT_SCORE,
   };
 };

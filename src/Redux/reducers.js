@@ -9,6 +9,7 @@ import {
   START_GAME,
   FINISH_GAME,
   RESTART_GAME,
+  INCREMENT_SCORE,
 } from "./actions";
 
 export const initialState = {
@@ -34,25 +35,25 @@ export const board = (state = initialState.board, action) => {
   if (action.type == MOVE_UP) {
     return {
       ...state,
-      matrix: MUp(state),
+      matrix: Move(state, 8),
     };
   }
   if (action.type == MOVE_DOWN) {
     return {
       ...state,
-      matrix: MDown(state),
+      matrix: Move(state, 2),
     };
   }
   if (action.type == MOVE_LEFT) {
     return {
       ...state,
-      matrix: MLeft(state),
+      matrix: Move(state, 4),
     };
   }
   if (action.type == MOVE_RIGHT) {
     return {
       ...state,
-      matrix: MRight(state),
+      matrix: Move(state, 6),
     };
   }
   if (action.type == RANDOM_NUMBER) {
@@ -66,6 +67,12 @@ export const board = (state = initialState.board, action) => {
     return {
       ...state,
       matrix: ANumber(state),
+    };
+  }
+  if (action.type == INCREMENT_SCORE) {
+    return {
+      ...state,
+      score: score + 2,
     };
   }
   if (action.type === RESTART_GAME) {
@@ -86,147 +93,150 @@ export const game = (state = initialState.game, action) => {
       ...state,
     };
   }
-
   return state;
 };
 
 const ANumber = (state) => {
+  let arrMat = [];
   var mat = state.matrix;
   const size = state.gridSize;
   const num = state.numberAdded;
   const m = mat.flat();
-  const result = m.filter((e) => e == 0);
+  const result = m.filter((e) => e == undefined);
   const count = result.length;
   const randomN = Math.floor(Math.random() * count + 1);
   var c = 0;
   for (var i = 0; i < size; i++) {
     for (var j = 0; j < size; j++) {
-      if (c < randomN && mat[i][j] == 0) {
-        c++;
+      if (c == randomN && mat[i][j] == 0) {
+        mat[i][j] = num;
       } else {
-        if (c == randomN && mat[i][j] == 0) {
-          mat[i][j] = num;
+        if (mat[i][j] == 0) {
+          c++;
         }
       }
     }
   }
-  return mat;
+  for (var i = 0; i < size; i++) {
+    let arr = [];
+    for (var j = 0; j < size; j++) {
+      arr.push(mat[i][j]);
+    }
+    arrMat.push(arr);
+  }
+  return arrMat;
 };
 
-const MUp = (state) => {
+const Move = (state, direction) => {
   let mat = state.matrix;
+  let arrMat = [];
   const size = state.gridSize;
   var ok;
-  for (var j = 0; j < size; j++) {
-    ok = 1;
-    while (ok) {
-      ok = 0;
-      for (var i = size - 2; i >= 0; i--) {
-        if (mat[i][j] != 0) {
-          if (mat[i + 1][j] == mat[i][j]) {
-            mat[i][j] = 0;
-            mat[i + 1][j] = 2 * mat[i + 1][j];
-            ok = 1;
-          } else {
-            if (mat[i + 1][j] == 0) {
-              mat[i + 1][j] = mat[i][j];
+  //up
+  if (direction == 8) {
+    for (var j = 0; j < size; j++) {
+      ok = 1;
+      while (ok) {
+        ok = 0;
+        for (var i = 1; i < size; i++) {
+          if (mat[i][j] != 0) {
+            if (mat[i - 1][j] == mat[i][j]) {
               mat[i][j] = 0;
+              mat[i - 1][j] = 2 * mat[i - 1][j];
               ok = 1;
+            } else {
+              if (mat[i - 1][j] == 0) {
+                mat[i - 1][j] = mat[i][j];
+                mat[i][j] = 0;
+                ok = 1;
+              }
             }
           }
         }
       }
     }
   }
-  console.log("up");
-  return mat;
-};
-
-const MDown = (state) => {
-  let mat = state.matrix;
-  const size = state.gridSize;
-  var ok;
-  for (var j = 0; j < size; j++) {
-    ok = 1;
-    while (ok) {
-      ok = 0;
-      for (var i = size - 2; i >= 0; i--) {
-        if (mat[i][j] != 0) {
-          if (mat[i + 1][j] == mat[i][j]) {
-            mat[i][j] = 0;
-            mat[i + 1][j] = 2 * mat[i + 1][j];
-            ok = 1;
-          } else {
-            if (mat[i + 1][j] == 0) {
-              mat[i + 1][j] = mat[i][j];
+  //down
+  if (direction == 2) {
+    for (var j = 0; j < size; j++) {
+      ok = 1;
+      while (ok) {
+        ok = 0;
+        for (var i = size - 2; i >= 0; i--) {
+          if (mat[i][j] != 0) {
+            if (mat[i + 1][j] == mat[i][j]) {
               mat[i][j] = 0;
+              mat[i + 1][j] = 2 * mat[i + 1][j];
               ok = 1;
+            } else {
+              if (mat[i + 1][j] == 0) {
+                mat[i + 1][j] = mat[i][j];
+                mat[i][j] = 0;
+                ok = 1;
+              }
             }
           }
         }
       }
     }
   }
-  console.log("down");
-  return mat;
-};
-
-const MLeft = (state) => {
-  let mat = state.matrix;
-  const size = state.gridSize;
-  var ok;
-  for (var j = 0; j < size; j++) {
-    ok = 1;
-    while (ok) {
-      ok = 0;
-      for (var i = size - 2; i >= 0; i--) {
-        if (mat[i][j] != 0) {
-          if (mat[i + 1][j] == mat[i][j]) {
-            mat[i][j] = 0;
-            mat[i + 1][j] = 2 * mat[i + 1][j];
-            ok = 1;
-          } else {
-            if (mat[i + 1][j] == 0) {
-              mat[i + 1][j] = mat[i][j];
+  //left
+  if (direction == 4) {
+    for (var i = 0; i < size; i++) {
+      ok = 1;
+      while (ok) {
+        ok = 0;
+        for (var j = 1; j < size; j++) {
+          if (mat[i][j] != 0) {
+            if (mat[i][j - 1] == mat[i][j]) {
               mat[i][j] = 0;
+              mat[i][j - 1] = 2 * mat[i][j - 1];
               ok = 1;
+            } else {
+              if (mat[i][j - 1] == 0) {
+                mat[i][j - 1] = mat[i][j];
+                mat[i][j] = 0;
+                ok = 1;
+              }
             }
           }
         }
       }
     }
   }
-  console.log("left");
-  return mat;
-};
-
-const MRight = (state) => {
-  let mat = state.matrix;
-  const size = state.gridSize;
-  var ok;
-  for (var j = 0; j < size; j++) {
-    ok = 1;
-    while (ok) {
-      ok = 0;
-      for (var i = size - 2; i >= 0; i--) {
-        if (mat[i][j] != 0) {
-          if (mat[i + 1][j] == mat[i][j]) {
-            mat[i][j] = 0;
-            mat[i + 1][j] = 2 * mat[i + 1][j];
-            ok = 1;
-          } else {
-            if (mat[i + 1][j] == 0) {
-              mat[i + 1][j] = mat[i][j];
+  //right
+  if (direction == 6) {
+    for (var i = 0; i < size; i++) {
+      ok = 1;
+      while (ok) {
+        ok = 0;
+        for (var j = size - 2; j >= 0; j--) {
+          if (mat[i][j] != 0) {
+            if (mat[i][j + 1] == mat[i][j]) {
               mat[i][j] = 0;
+              mat[i][j + 1] = 2 * mat[i][j + 1];
               ok = 1;
+            } else {
+              if (mat[i][j + 1] == 0) {
+                mat[i][j + 1] = mat[i][j];
+                mat[i][j] = 0;
+                ok = 1;
+              }
             }
           }
         }
       }
     }
   }
-  console.log("rightr");
-  return mat;
+  //switch
+  for (var i = 0; i < size; i++) {
+    let arr = [];
+    for (var j = 0; j < size; j++) {
+      arr.push(mat[i][j]);
+    }
+    arrMat.push(arr);
+  }
+  return arrMat;
 };
 
 export const appReducer = combineReducers({ board, game });

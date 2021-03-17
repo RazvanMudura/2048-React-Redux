@@ -6,7 +6,7 @@ export const RestartButton = () => {
   const dispatch = useDispatch();
   return (
     <div>
-      <button onClick={dispatch(restartGame())}>Restart</button>
+      <button>Restart</button>
     </div>
   );
 };

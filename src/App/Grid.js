@@ -11,7 +11,6 @@ export const Grid = () => {
 
 export const RenderSquares = () => {
   const mat = useSelector((state) => state.board.matrix);
-  console.log(mat);
   const size = useSelector((state) => state.board.gridSize);
   var arrResult = [];
   for (var i = 0; i < size; i++) {

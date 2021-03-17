@@ -10,12 +10,13 @@ import {
   startGame,
   finishGame,
   restartGame,
+  incrementScore,
 } from "../Redux/actions";
 
 export const Moves = () => {
   const dispatch = useDispatch();
   document.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowUp") dispatch(moveUp());
+    if (e.key === "ArrowUp") dispatch(incrementScore(2));
     if (e.key === "ArrowDown") dispatch(moveDown());
     if (e.key === "ArrowLeft") dispatch(moveLeft());
     if (e.key === "ArrowRight") dispatch(moveRight());
