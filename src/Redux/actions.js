@@ -8,6 +8,7 @@ export const START_GAME = "START_GAME";
 export const FINISH_GAME = "FINISH GAME";
 export const RESTART_GAME = "RESTART_GAME";
 export const INCREMENT_SCORE = "INCREMENT_SCORE";
+export const INCREMENT_BEST = "INCREMENT_BEST";
 
 export const moveUp = () => {
   return {
@@ -63,8 +64,16 @@ export const restartGame = () => {
   };
 };
 
-export const incrementScore = () => {
+export const incrementScore = (num) => {
   return {
     type: INCREMENT_SCORE,
+    num,
+  };
+};
+
+export const incrementBest = (num) => {
+  return {
+    type: INCREMENT_BEST,
+    num,
   };
 };

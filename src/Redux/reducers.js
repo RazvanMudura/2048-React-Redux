@@ -10,18 +10,19 @@ import {
   FINISH_GAME,
   RESTART_GAME,
   INCREMENT_SCORE,
+  INCREMENT_BEST,
 } from "./actions";
 
 export const initialState = {
   board: {
     gridSize: 4,
     score: 0,
-    best: 0,
+    best: 10,
     matrix: [
-      [4, 2, 0, 0],
-      [4, 2, 4, 0],
-      [4, 0, 16, 2],
-      [4, 2, 32, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 2],
+      [0, 0, 0, 0],
     ],
     numberAdded: 2,
   },
@@ -70,11 +71,21 @@ export const board = (state = initialState.board, action) => {
     };
   }
   if (action.type == INCREMENT_SCORE) {
+    const add = action.num + state.score;
     return {
       ...state,
-      score: score + 2,
+      score: add,
     };
   }
+
+  if (action.type == INCREMENT_BEST) {
+    const add = action.num;
+    return {
+      ...state,
+      best: add,
+    };
+  }
+
   if (action.type === RESTART_GAME) {
     return (state = initialState.board);
   }
@@ -228,7 +239,7 @@ const Move = (state, direction) => {
       }
     }
   }
-  //switch
+  //array switch
   for (var i = 0; i < size; i++) {
     let arr = [];
     for (var j = 0; j < size; j++) {

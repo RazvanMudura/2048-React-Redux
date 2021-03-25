@@ -16,30 +16,35 @@ const App = () => {
     <Provider store={store}>
       <div
         style={{
-          textAlign: "center",
-          fontSize: "38px",
-          fontWeight: "bolder",
-          color: "lightblue",
-        }}
-      >
-        2048
-      </div>
-      <div
-        style={{
           display: "flex",
+          flexDirection: "row",
           justifyContent: "center",
         }}
       >
-        <Score />
+        <div>
+          <div className="title">2048</div>
+          <div className="buttons">
+            <Grid />
+            <Moves />
+          </div>
+        </div>
+        <div>
+          <Score />
+        </div>
       </div>
+
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
+          width: 400,
+          height: 50,
+          justifyContent: "center",
+          flexDirection: "column",
+          fontSize: "10px",
         }}
       >
-        <Grid />
-        <Moves />
+        Regulile Jocului : Foloseste-te de sageti pentru a muta patratele.
+        Patratele cu acelasi numar se combina cand se ating. Combinati-le pentru
+        a ajunge la 2048.
       </div>
     </Provider>
   );

@@ -1,5 +1,6 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #0de0ff;
 }
 
 .square {
@@ -7,20 +8,21 @@ body {
   height: 68px;
   box-sizing: border-box;
   border-radius: 3px;
-  color: white;
-  font-size: 40px;
+  color: rgb(44, 40, 40);
+  font-size: 46px;
+  font-weight: 1000;
   margin: auto;
   text-align: center;
   line-height: 68px;
-  background-color: rgb(248, 217, 11);
+  background-color: #ffe200;
 }
 
 .grid {
   width: 330px;
   height: 330px;
-  border: 1px #ff7f50;
+  border: 10px black;
   border-radius: 5px;
-  background-color: #ff7f50;
+  background-color: #129eb3;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -28,4 +30,25 @@ body {
   justify-content: right;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+
+.box {
+  text-align: center;
+  border-radius: 3px;
+  background-color: rgb(248, 217, 11);
+  margin: 5px;
+  border-color: black;
+  border-width: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 38px;
+  font-weight: bolder;
+  color: #b31268;
+}
+
+.buttons {
+  display: block;
+  justify-content: center;
 }

@@ -1,36 +1,32 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RestartButton } from "./Restart";
+import { useSelector, useDispatch } from "react-redux";
+import { incrementBest, restartGame } from "../Redux/actions";
 
 export const Score = () => {
+  const dispatch = useDispatch();
   const score = useSelector((state) => state.board.score);
   const best = useSelector((state) => state.board.best);
 
+  if (best < score) {
+    dispatch(incrementBest(score));
+  }
+
   return (
-    <div id="score" style={{ display: "flex" }}>
-      <div
-        style={{
-          textAlign: "center",
-          borderRadius: "3px",
-          backgroundColor: "rgb(248, 217, 11)",
-          margin: "5px",
-        }}
-      >
+    <div
+      id="score"
+      style={{ display: "flex", flexDirection: "column", margin: "30px" }}
+    >
+      <div className="box">
         <div style={{ color: "#FF7F50" }}>Score</div>
         <div style={{ color: "white" }}>{score}</div>
       </div>
-      <div
-        style={{
-          textAlign: "center",
-          borderRadius: "3px",
-          backgroundColor: "rgb(248, 217, 11)",
-          margin: "5px",
-        }}
-      >
+      <div className="box">
         <div style={{ color: "#FF7F50" }}>Best</div>
         <div style={{ color: "white" }}>{best}</div>
       </div>
-      <RestartButton />
+      <div>
+        <button className="box">New Game</button>
+      </div>
     </div>
   );
 };
