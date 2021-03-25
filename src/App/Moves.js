@@ -6,8 +6,6 @@ import {
   moveRight,
   addNumber,
   randomNumber,
-  startGame,
-  finishGame,
   restartGame,
   incrementScore,
   incrementBest,
@@ -15,6 +13,7 @@ import {
 
 export const Moves = () => {
   const dispatch = useDispatch();
+
   addEventListener("keydown", function (e) {
     if (e.key === "ArrowUp") {
       dispatch(moveUp());

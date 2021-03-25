@@ -12,17 +12,14 @@ export const Score = () => {
   }
 
   return (
-    <div
-      id="score"
-      style={{ display: "flex", flexDirection: "column", margin: "30px" }}
-    >
+    <div className="score">
       <div className="box">
-        <div style={{ color: "#FF7F50" }}>Score</div>
-        <div style={{ color: "white" }}>{score}</div>
+        <div className="scoreTitle">Score</div>
+        <div className="nr">{score}</div>
       </div>
       <div className="box">
-        <div style={{ color: "#FF7F50" }}>Best</div>
-        <div style={{ color: "white" }}>{best}</div>
+        <div className="scoreTitle">Best</div>
+        <div className="nr">{best}</div>
       </div>
       <div>
         <button className="box">New Game</button>

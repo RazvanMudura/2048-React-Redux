@@ -33,15 +33,7 @@ const App = () => {
         </div>
       </div>
 
-      <div
-        style={{
-          width: 400,
-          height: 50,
-          justifyContent: "center",
-          flexDirection: "column",
-          fontSize: "10px",
-        }}
-      >
+      <div className="info">
         Regulile Jocului : Foloseste-te de sageti pentru a muta patratele.
         Patratele cu acelasi numar se combina cand se ating. Combinati-le pentru
         a ajunge la 2048.

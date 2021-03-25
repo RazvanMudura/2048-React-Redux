@@ -6,11 +6,10 @@ import {
   MOVE_RIGHT,
   ADD_NUMBER,
   RANDOM_NUMBER,
-  START_GAME,
-  FINISH_GAME,
   RESTART_GAME,
   INCREMENT_SCORE,
   INCREMENT_BEST,
+  END_GAME,
 } from "./actions";
 
 export const initialState = {
@@ -19,16 +18,13 @@ export const initialState = {
     score: 0,
     best: 10,
     matrix: [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
       [0, 0, 0, 2],
-      [0, 0, 0, 0],
+      [0, 0, 0, 2],
+      [0, 0, 0, 2],
+      [0, 0, 0, 2],
     ],
     numberAdded: 2,
-  },
-  game: {
-    started: false,
-    finished: false,
+    ended: false,
   },
 };
 
@@ -87,23 +83,19 @@ export const board = (state = initialState.board, action) => {
   }
 
   if (action.type === RESTART_GAME) {
-    return (state = initialState.board);
+    return {
+      ...state,
+      best,
+    };
   }
-  return state;
-};
 
-export const game = (state = initialState.game, action) => {
-  if (action.type == START_GAME) {
+  if (action.type == END_GAME) {
     return {
       ...state,
-      started: true,
+      ended: true,
     };
   }
-  if (action.type == FINISH_GAME) {
-    return {
-      ...state,
-    };
-  }
+
   return state;
 };
 
@@ -140,26 +132,27 @@ const ANumber = (state) => {
 
 const Move = (state, direction) => {
   let mat = state.matrix;
-  let arrMat = [];
   const size = state.gridSize;
-  var ok;
+  let arrMat = [];
+  var i, j, row, col;
   //up
   if (direction == 8) {
-    for (var j = 0; j < size; j++) {
-      ok = 1;
-      while (ok) {
-        ok = 0;
-        for (var i = 1; i < size; i++) {
-          if (mat[i][j] != 0) {
-            if (mat[i - 1][j] == mat[i][j]) {
-              mat[i][j] = 0;
-              mat[i - 1][j] = 2 * mat[i - 1][j];
-              ok = 1;
+    for (j = 0; j < size; j++) {
+      for (i = 1; i < size; i++) {
+        if (mat[i][j] != 0) {
+          row = i;
+          while (row > 0) {
+            if (!mat[row - 1][j]) {
+              mat[row - 1][j] = mat[row][j];
+              mat[row][j] = 0;
+              row--;
             } else {
-              if (mat[i - 1][j] == 0) {
-                mat[i - 1][j] = mat[i][j];
-                mat[i][j] = 0;
-                ok = 1;
+              if (mat[row][j] == mat[row - 1][j]) {
+                mat[row - 1][j] *= 2;
+                mat[row][j] = 0;
+                break;
+              } else {
+                break;
               }
             }
           }
@@ -169,22 +162,21 @@ const Move = (state, direction) => {
   }
   //down
   if (direction == 2) {
-    for (var j = 0; j < size; j++) {
-      ok = 1;
-      while (ok) {
-        ok = 0;
-        for (var i = size - 2; i >= 0; i--) {
-          if (mat[i][j] != 0) {
-            if (mat[i + 1][j] == mat[i][j]) {
-              mat[i][j] = 0;
-              mat[i + 1][j] = 2 * mat[i + 1][j];
-              ok = 1;
+    for (j = 0; j < size; j++) {
+      for (i = size - 2; i >= 0; i--) {
+        if (mat[i][j]) {
+          row = i;
+          while (row + 1 < size) {
+            if (!mat[row + 1][j]) {
+              mat[row + 1][j] = mat[row][j];
+              mat[row][j] = 0;
+              row++;
+            } else if (mat[row][j] == mat[row + 1][j]) {
+              mat[row + 1][j] *= 2;
+              mat[row][j] = 0;
+              break;
             } else {
-              if (mat[i + 1][j] == 0) {
-                mat[i + 1][j] = mat[i][j];
-                mat[i][j] = 0;
-                ok = 1;
-              }
+              break;
             }
           }
         }
@@ -193,22 +185,21 @@ const Move = (state, direction) => {
   }
   //left
   if (direction == 4) {
-    for (var i = 0; i < size; i++) {
-      ok = 1;
-      while (ok) {
-        ok = 0;
-        for (var j = 1; j < size; j++) {
-          if (mat[i][j] != 0) {
-            if (mat[i][j - 1] == mat[i][j]) {
-              mat[i][j] = 0;
-              mat[i][j - 1] = 2 * mat[i][j - 1];
-              ok = 1;
+    for (i = 0; i < size; i++) {
+      for (j = 1; j < size; j++) {
+        if (mat[i][j] != 0) {
+          col = j;
+          while (col - 1 >= 0) {
+            if (!mat[i][col - 1]) {
+              mat[i][col - 1] = mat[i][col];
+              mat[i][col] = 0;
+              col--;
+            } else if (mat[i][col] == mat[i][col - 1]) {
+              mat[i][col - 1] *= 2;
+              mat[i][col] = 0;
+              break;
             } else {
-              if (mat[i][j - 1] == 0) {
-                mat[i][j - 1] = mat[i][j];
-                mat[i][j] = 0;
-                ok = 1;
-              }
+              break;
             }
           }
         }
@@ -217,22 +208,21 @@ const Move = (state, direction) => {
   }
   //right
   if (direction == 6) {
-    for (var i = 0; i < size; i++) {
-      ok = 1;
-      while (ok) {
-        ok = 0;
-        for (var j = size - 2; j >= 0; j--) {
-          if (mat[i][j] != 0) {
-            if (mat[i][j + 1] == mat[i][j]) {
-              mat[i][j] = 0;
-              mat[i][j + 1] = 2 * mat[i][j + 1];
-              ok = 1;
+    for (i = 0; i < size; i++) {
+      for (j = size - 2; j >= 0; j--) {
+        if (mat[i][j]) {
+          col = j;
+          while (col + 1 < size) {
+            if (!mat[i][col + 1]) {
+              mat[i][col + 1] = mat[i][col];
+              mat[i][col] = 0;
+              col++;
+            } else if (mat[i][col] == mat[i][col + 1]) {
+              mat[i][col + 1] *= 2;
+              mat[i][col] = 0;
+              break;
             } else {
-              if (mat[i][j + 1] == 0) {
-                mat[i][j + 1] = mat[i][j];
-                mat[i][j] = 0;
-                ok = 1;
-              }
+              break;
             }
           }
         }
@@ -250,4 +240,4 @@ const Move = (state, direction) => {
   return arrMat;
 };
 
-export const appReducer = combineReducers({ board, game });
+export const appReducer = combineReducers({ board });

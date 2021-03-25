@@ -4,11 +4,10 @@ export const MOVE_LEFT = "MOVE_LEFT";
 export const MOVE_RIGHT = "MOVE_RIGHT";
 export const ADD_NUMBER = "ADD_NUMBER";
 export const RANDOM_NUMBER = "RANDOM_NUMBER";
-export const START_GAME = "START_GAME";
-export const FINISH_GAME = "FINISH GAME";
 export const RESTART_GAME = "RESTART_GAME";
 export const INCREMENT_SCORE = "INCREMENT_SCORE";
 export const INCREMENT_BEST = "INCREMENT_BEST";
+export const END_GAME = "END_GAME";
 
 export const moveUp = () => {
   return {
@@ -46,18 +45,6 @@ export const randomNumber = () => {
   };
 };
 
-export const startGame = () => {
-  return {
-    type: START_GAME,
-  };
-};
-
-export const finishGame = () => {
-  return {
-    type: FINISH_GAME,
-  };
-};
-
 export const restartGame = () => {
   return {
     type: RESTART_GAME,
@@ -75,5 +62,11 @@ export const incrementBest = (num) => {
   return {
     type: INCREMENT_BEST,
     num,
+  };
+};
+
+export const endGame = () => {
+  return {
+    type: END_GAME,
   };
 };
