@@ -12,22 +12,6 @@ export const Grid = () => {
 export const RenderSquares = () => {
   const mat = useSelector((state) => state.board.matrix);
   const size = useSelector((state) => state.board.gridSize);
-  const end = useSelector((state) => state.board.ended);
-
-  const isFinished = () => {
-    for (var i = 0; i < size; i++) {
-      for (var j = 0; j < size; j++) {
-        if (
-          (i != 3 && mat[i][j] == mat[i + 1][j]) ||
-          (j != 3 && mat[i][j] == mat[i][j + 1]) ||
-          mat[i][j] == 0
-        ) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
 
   var arrResult = [];
   for (var i = 0; i < size; i++) {

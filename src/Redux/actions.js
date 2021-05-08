@@ -34,6 +34,7 @@ export const moveRight = () => {
 };
 
 export const addNumber = () => {
+  console.log("uf");
   return {
     type: ADD_NUMBER,
   };

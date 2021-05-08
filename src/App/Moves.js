@@ -18,10 +18,26 @@ export const Moves = () => {
     if (e.key === "ArrowUp") {
       dispatch(moveUp());
       dispatch(incrementScore(2));
+      dispatch(addNumber());
     }
     if (e.key === "ArrowDown") dispatch(moveDown());
     if (e.key === "ArrowLeft") dispatch(moveLeft());
     if (e.key === "ArrowRight") dispatch(moveRight());
   });
   return null;
+};
+
+const isFinished = () => {
+  for (var i = 0; i < size; i++) {
+    for (var j = 0; j < size; j++) {
+      if (
+        (i != 3 && mat[i][j] == mat[i + 1][j]) ||
+        (j != 3 && mat[i][j] == mat[i][j + 1]) ||
+        mat[i][j] == 0
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
 };

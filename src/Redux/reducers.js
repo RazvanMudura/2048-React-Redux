@@ -18,10 +18,10 @@ export const initialState = {
     score: 0,
     best: 10,
     matrix: [
-      [0, 0, 0, 2],
-      [0, 0, 0, 2],
-      [0, 0, 0, 2],
-      [0, 0, 0, 2],
+      [32, 64, 128, 256],
+      [2, 0, 2, 1024],
+      [2, 0, 0, 0],
+      [2, 0, 2, 2],
     ],
     numberAdded: 2,
     ended: false,
@@ -105,7 +105,7 @@ const ANumber = (state) => {
   const size = state.gridSize;
   const num = state.numberAdded;
   const m = mat.flat();
-  const result = m.filter((e) => e == undefined);
+  const result = m.filter((e) => e == 0);
   const count = result.length;
   const randomN = Math.floor(Math.random() * count + 1);
   var c = 0;
