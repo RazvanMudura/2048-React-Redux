@@ -5,25 +5,35 @@ import {
   moveLeft,
   moveRight,
   addNumber,
-  randomNumber,
-  restartGame,
   incrementScore,
-  incrementBest,
+  startGame,
+  endGame,
+  randomNumber,
 } from "../Redux/actions";
+import { store } from "./App";
 
 export const Moves = () => {
   const dispatch = useDispatch();
+  const started = useSelector((state) => state.board.started);
+  const ended = useSelector((state) => state.board.ended);
+  const exMat = useSelector((state) => state.board.matrix);
 
-  addEventListener("keydown", function (e) {
-    if (e.key === "ArrowUp") {
-      dispatch(moveUp());
-      dispatch(incrementScore(2));
-      dispatch(addNumber());
-    }
-    if (e.key === "ArrowDown") dispatch(moveDown());
-    if (e.key === "ArrowLeft") dispatch(moveLeft());
-    if (e.key === "ArrowRight") dispatch(moveRight());
-  });
+  if (!ended) {
+    addEventListener("keydown", function (e) {
+      if (e.key === "ArrowUp") {
+        dispatch(moveUp());
+      }
+      if (e.key === "ArrowDown") {
+        dispatch(moveDown());
+      }
+      if (e.key === "ArrowLeft") {
+        dispatch(moveLeft());
+      }
+      if (e.key === "ArrowRight") {
+        dispatch(moveRight());
+      }
+    });
+  }
   return null;
 };
 
@@ -40,4 +50,8 @@ const isFinished = () => {
     }
   }
   return true;
+};
+
+export const scoreAdder = () => {
+  store.dispatch(incrementScore(2));
 };

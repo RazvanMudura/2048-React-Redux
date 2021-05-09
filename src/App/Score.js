@@ -22,7 +22,14 @@ export const Score = () => {
         <div className="nr">{best}</div>
       </div>
       <div>
-        <button className="box">New Game</button>
+        <button
+          className="box"
+          onClick={() => {
+            dispatch(restartGame());
+          }}
+        >
+          New Game
+        </button>
       </div>
     </div>
   );

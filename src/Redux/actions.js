@@ -7,6 +7,7 @@ export const RANDOM_NUMBER = "RANDOM_NUMBER";
 export const RESTART_GAME = "RESTART_GAME";
 export const INCREMENT_SCORE = "INCREMENT_SCORE";
 export const INCREMENT_BEST = "INCREMENT_BEST";
+export const START_GAME = "START_GAME";
 export const END_GAME = "END_GAME";
 
 export const moveUp = () => {
@@ -34,7 +35,6 @@ export const moveRight = () => {
 };
 
 export const addNumber = () => {
-  console.log("uf");
   return {
     type: ADD_NUMBER,
   };
@@ -63,6 +63,12 @@ export const incrementBest = (num) => {
   return {
     type: INCREMENT_BEST,
     num,
+  };
+};
+
+export const startGame = () => {
+  return {
+    type: START_GAME,
   };
 };
 

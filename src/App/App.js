@@ -6,7 +6,7 @@ import { Score } from "./Score";
 import { Moves } from "./Moves";
 import { appReducer } from "../Redux/reducers";
 
-const store = createStore(
+export const store = createStore(
   appReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
@@ -23,7 +23,7 @@ const App = () => {
       >
         <div>
           <div className="title">2048</div>
-          <div className="buttons">
+          <div>
             <Grid />
             <Moves />
           </div>
@@ -35,8 +35,8 @@ const App = () => {
 
       <div className="info">
         Regulile Jocului : Foloseste-te de sageti pentru a muta patratele.
-        Patratele cu acelasi numar se combina cand se ating. Combinati-le pentru
-        a ajunge la 2048.
+        Patratele cu acelasi numar se combina cand se ating. Combina-le pentru a
+        ajunge la 2048.
       </div>
     </Provider>
   );

@@ -9,21 +9,24 @@ import {
   RESTART_GAME,
   INCREMENT_SCORE,
   INCREMENT_BEST,
+  START_GAME,
   END_GAME,
 } from "./actions";
+import { scoreAdder } from "../App/Moves";
 
 export const initialState = {
   board: {
     gridSize: 4,
     score: 0,
-    best: 10,
+    best: 0,
     matrix: [
-      [32, 64, 128, 256],
-      [2, 0, 2, 1024],
-      [2, 0, 0, 0],
-      [2, 0, 2, 2],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
     ],
     numberAdded: 2,
+    started: false,
     ended: false,
   },
 };
@@ -83,9 +86,13 @@ export const board = (state = initialState.board, action) => {
   }
 
   if (action.type === RESTART_GAME) {
+    return (state = initialState.board);
+  }
+
+  if (action.type == START_GAME) {
     return {
       ...state,
-      best,
+      started: true,
     };
   }
 
@@ -108,15 +115,15 @@ const ANumber = (state) => {
   const result = m.filter((e) => e == 0);
   const count = result.length;
   const randomN = Math.floor(Math.random() * count + 1);
+
   var c = 0;
   for (var i = 0; i < size; i++) {
     for (var j = 0; j < size; j++) {
-      if (c == randomN && mat[i][j] == 0) {
-        mat[i][j] = num;
-      } else {
-        if (mat[i][j] == 0) {
-          c++;
+      if (mat[i][j] == 0) {
+        if (c == randomN - 1) {
+          mat[i][j] = num;
         }
+        c++;
       }
     }
   }
