@@ -86,7 +86,18 @@ export const board = (state = initialState.board, action) => {
   }
 
   if (action.type === RESTART_GAME) {
-    return (state = initialState.board);
+    return {
+      ...state,
+      score: 0,
+      matrix: [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ],
+      started: false,
+      ended: false,
+    };
   }
 
   if (action.type == START_GAME) {
