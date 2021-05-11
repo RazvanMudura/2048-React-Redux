@@ -1,57 +1,162 @@
 import { useSelector, useDispatch } from "react-redux";
+import { store } from "./App";
 import {
   moveUp,
   moveDown,
   moveLeft,
   moveRight,
   addNumber,
-  incrementScore,
-  startGame,
-  endGame,
   randomNumber,
+  restartGame,
+  incrementScore,
+  incrementBest,
+  endGame,
+  startGame,
 } from "../Redux/actions";
-import { store } from "./App";
 
 export const Moves = () => {
   const dispatch = useDispatch();
-  const started = useSelector((state) => state.board.started);
   const ended = useSelector((state) => state.board.ended);
-  const exMat = useSelector((state) => state.board.matrix);
 
   if (!ended) {
     addEventListener("keydown", function (e) {
       if (e.key === "ArrowUp") {
         dispatch(moveUp());
+        dispatch(addNumber());
       }
       if (e.key === "ArrowDown") {
         dispatch(moveDown());
+        dispatch(addNumber());
       }
       if (e.key === "ArrowLeft") {
         dispatch(moveLeft());
+        dispatch(addNumber());
       }
       if (e.key === "ArrowRight") {
         dispatch(moveRight());
+        dispatch(addNumber());
       }
     });
   }
   return null;
 };
 
-const isFinished = () => {
-  for (var i = 0; i < size; i++) {
-    for (var j = 0; j < size; j++) {
-      if (
-        (i != 3 && mat[i][j] == mat[i + 1][j]) ||
-        (j != 3 && mat[i][j] == mat[i][j + 1]) ||
-        mat[i][j] == 0
-      ) {
-        return false;
+export const Move = (state, direction) => {
+  let mat = state.matrix;
+  const size = state.gridSize;
+  let arrMat = [];
+  var i, j, row, col;
+  let addedScore = 0;
+  //up
+  if (direction == 8) {
+    for (j = 0; j < size; j++) {
+      for (i = 1; i < size; i++) {
+        if (mat[i][j] != 0) {
+          row = i;
+          while (row > 0) {
+            if (!mat[row - 1][j]) {
+              mat[row - 1][j] = mat[row][j];
+              mat[row][j] = 0;
+              row--;
+            } else {
+              if (mat[row][j] == mat[row - 1][j]) {
+                mat[row - 1][j] *= 2;
+                addedScore = mat[row - 1][j];
+                mat[row][j] = 0;
+                break;
+              } else {
+                break;
+              }
+            }
+          }
+        }
       }
     }
   }
-  return true;
-};
+  //down
+  if (direction == 2) {
+    for (j = 0; j < size; j++) {
+      for (i = size - 2; i >= 0; i--) {
+        if (mat[i][j]) {
+          row = i;
+          while (row + 1 < size) {
+            if (!mat[row + 1][j]) {
+              mat[row + 1][j] = mat[row][j];
+              mat[row][j] = 0;
+              row++;
+            } else if (mat[row][j] == mat[row + 1][j]) {
+              mat[row + 1][j] *= 2;
+              addedScore = mat[row + 1][j];
+              mat[row][j] = 0;
+              break;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  //left
+  if (direction == 4) {
+    for (i = 0; i < size; i++) {
+      for (j = 1; j < size; j++) {
+        if (mat[i][j] != 0) {
+          col = j;
+          while (col - 1 >= 0) {
+            if (!mat[i][col - 1]) {
+              mat[i][col - 1] = mat[i][col];
+              mat[i][col] = 0;
+              col--;
+            } else if (mat[i][col] == mat[i][col - 1]) {
+              mat[i][col - 1] *= 2;
+              addedScore = mat[i][col - 1];
+              mat[i][col] = 0;
+              break;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  //right
+  if (direction == 6) {
+    for (i = 0; i < size; i++) {
+      for (j = size - 2; j >= 0; j--) {
+        if (mat[i][j]) {
+          col = j;
+          while (col + 1 < size) {
+            if (!mat[i][col + 1]) {
+              mat[i][col + 1] = mat[i][col];
+              mat[i][col] = 0;
+              col++;
+            } else if (mat[i][col] == mat[i][col + 1]) {
+              mat[i][col + 1] *= 2;
+              addedScore = mat[i][col + 1];
+              mat[i][col] = 0;
+              break;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  //array switch
+  for (var i = 0; i < size; i++) {
+    let arr = [];
+    for (var j = 0; j < size; j++) {
+      arr.push(mat[i][j]);
+    }
+    arrMat.push(arr);
+  }
 
-export const scoreAdder = () => {
-  store.dispatch(incrementScore(2));
+  setTimeout(() => {
+    store.dispatch(incrementScore(addedScore));
+  });
+
+  return arrMat;
 };

@@ -1,6 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { incrementBest, incrementScore, restartGame } from "../Redux/actions";
+import {
+  endGame,
+  incrementBest,
+  incrementScore,
+  restartGame,
+  randomNumber,
+  addNumber,
+  startGame,
+} from "../Redux/actions";
 
 export const Score = () => {
   const dispatch = useDispatch();
@@ -8,18 +16,23 @@ export const Score = () => {
   const best = useSelector((state) => state.board.best);
   const size = useSelector((state) => state.board.gridSize);
   const mat = useSelector((state) => state.board.matrix);
+  const started = useSelector((state) => state.board.started);
 
   if (best < score) {
     dispatch(incrementBest(score));
   }
 
-  var s = 0;
-  for (var i = 0; i < size; i++) {
-    for (var j = 0; j < size; j++) {
-      s += mat[i][j];
-    }
+  if (isFinished(size, mat)) {
+    dispatch(endGame());
   }
-  dispatch(incrementScore(s));
+
+  if (!started) {
+    dispatch(randomNumber());
+    dispatch(addNumber());
+    dispatch(randomNumber());
+    dispatch(addNumber());
+    dispatch(startGame());
+  }
 
   return (
     <div className="score">
@@ -43,4 +56,19 @@ export const Score = () => {
       </div>
     </div>
   );
+};
+
+const isFinished = (size, mat) => {
+  for (var i = 0; i < size; i++) {
+    for (var j = 0; j < size; j++) {
+      if (
+        (i != 3 && mat[i][j] == mat[i + 1][j]) ||
+        (j != 3 && mat[i][j] == mat[i][j + 1]) ||
+        mat[i][j] == 0
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
 };

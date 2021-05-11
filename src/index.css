@@ -33,6 +33,7 @@ body {
   justify-content: right;
   align-items: flex-start;
   flex-wrap: wrap;
+  z-index: 10;
 }
 
 .box {
